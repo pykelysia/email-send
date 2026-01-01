@@ -1,0 +1,4 @@
+github.com/goccy/go-yaml v1.19.1 h1:3rG3+v8pkhRqoQ/88NYNMHYVGYztCOCIZ7UQhu7H+NE=
+github.com/goccy/go-yaml v1.19.1/go.mod h1:XBurs7gK8ATbW4ZPGKgcbrY1Br56PdM69F7LkFRi1kA=
+github.com/pykelysia/pyketools v0.0.0-20251102021803-62fee5b8ba46 h1:nbqJRK9cRKRw6dNFj7+hs1tl/5csrOhSg8K+D9GtpqA=
+github.com/pykelysia/pyketools v0.0.0-20251102021803-62fee5b8ba46/go.mod h1:HUlmTTEqEEyuvFAO9rFSAgjSCfklo6XShAG2Lij3lQ4=
