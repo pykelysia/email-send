@@ -9,8 +9,17 @@ type (
 	toEmail struct {
 		Addresses []string `yaml:"Addresses"`
 	}
+	logConfig struct {
+		LogPath string `yaml:"LogPath"`
+	}
+	routeConfig struct {
+		Host string `yaml:"Host"`
+		Port string `yaml:"Port"`
+	}
 	Config struct {
-		UserConfig userConfig `yaml:"UserConfig"`
-		EmailTo    toEmail    `yaml:"EmailTo"`
+		UserConfig  userConfig  `yaml:"UserConfig"`
+		EmailTo     toEmail     `yaml:"EmailTo"`
+		LogConfig   logConfig   `yaml:"LogConfig"`
+		RouteConfig routeConfig `yaml:"RouteConfig"`
 	}
 )
