@@ -11,7 +11,7 @@ import (
 )
 
 type (
-	logger struct {
+	Logger struct {
 		c       config.Config
 		logPath string
 		logFile *os.File
@@ -19,8 +19,8 @@ type (
 	}
 )
 
-func NewLogger(c config.Config) *logger {
-	l := &logger{c: c, logPath: c.LogConfig.LogPath}
+func NewLogger(c config.Config) *Logger {
+	l := &Logger{c: c, logPath: c.LogConfig.LogPath}
 	logFile, fileErr := os.OpenFile(l.logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if fileErr != nil {
 		pyketools.Errorf("failed to open log file: %v", fileErr)
@@ -30,7 +30,7 @@ func NewLogger(c config.Config) *logger {
 	return l
 }
 
-func (l *logger) LogToFile(level, message string) {
+func (l *Logger) LogToFile(level, message string) {
 	if l.logFile != nil {
 		l.mu.Lock()
 		defer l.mu.Unlock()
