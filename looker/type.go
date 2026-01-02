@@ -1,7 +1,16 @@
 package looker
 
+import (
+	"email-send/config"
+	"email-send/util"
+)
+
 type (
 	looker struct {
-		Err chan (error)
+		c      config.Config
+		err    chan (error)
+		end    chan (bool)
+		isOpen bool
+		logger *util.Logger
 	}
 )
