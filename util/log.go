@@ -40,3 +40,7 @@ func (l *Logger) LogToFile(level, message string) {
 		l.logFile.Sync()
 	}
 }
+
+func (l *Logger) Close() {
+	l.logFile.Close()
+}
