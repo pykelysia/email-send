@@ -1,7 +1,31 @@
 package route
 
-import "github.com/gin-gonic/gin"
+import (
+	"email-send/config"
+	"fmt"
 
-func BindRoute(server *gin.Engine) {
-	server.POST("/send", sendEmailHandler())
+	"github.com/gin-gonic/gin"
+	"github.com/pykelysia/pyketools"
+)
+
+func NewG(c config.Config) *G {
+	return &G{
+		c:      c,
+		server: gin.Default(),
+	}
+}
+
+func (g *G) bindRoute() {
+	server := g.server
+	server.POST("/send", sendEmailHandler(g.c))
+}
+
+func (g *G) Run() error {
+	g.bindRoute()
+	ip := fmt.Sprintf("%s:%s", g.host, g.port)
+	err := g.server.Run(ip)
+	if err != nil {
+		pyketools.Errorf("failed to run gin: %v", err)
+	}
+	return err
 }

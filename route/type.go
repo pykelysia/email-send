@@ -1,6 +1,18 @@
 package route
 
+import (
+	"email-send/config"
+
+	"github.com/gin-gonic/gin"
+)
+
 type (
+	G struct {
+		c      config.Config
+		server *gin.Engine
+		host   string
+		port   string
+	}
 	baseMsg struct {
 		Code    int    `json:"code"`
 		Message string `json:"message"`

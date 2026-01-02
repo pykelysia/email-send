@@ -2,6 +2,7 @@ package route
 
 import (
 	"context"
+	"email-send/config"
 	"email-send/engine"
 	"email-send/looker"
 	"fmt"
@@ -13,13 +14,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func sendEmailHandler() gin.HandlerFunc {
-	return func(c *gin.Context) {
+func sendEmailHandler(c config.Config) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
 		var (
 			req  sendEmailReq
 			resp sendEmailResp
 		)
-		err := c.ShouldBindBodyWithJSON(&req)
+		err := ctx.ShouldBindBodyWithJSON(&req)
 		if err != nil {
 			resp = sendEmailResp{
 				BaseMsg: baseMsg{
@@ -30,10 +31,10 @@ func sendEmailHandler() gin.HandlerFunc {
 					IsSuccess bool `json:"is_success"`
 				}{IsSuccess: false},
 			}
-			c.JSON(http.StatusOK, resp)
+			ctx.JSON(http.StatusOK, resp)
 			return
 		}
-		err = setSendEmailEngine(req.Time, req.Subject, req.Body)
+		err = setSendEmailEngine(c, req.Time, req.Subject, req.Body)
 		if err != nil {
 			resp = sendEmailResp{
 				BaseMsg: baseMsg{
@@ -44,7 +45,7 @@ func sendEmailHandler() gin.HandlerFunc {
 					IsSuccess bool `json:"is_success"`
 				}{IsSuccess: false},
 			}
-			c.JSON(http.StatusOK, resp)
+			ctx.JSON(http.StatusOK, resp)
 		}
 
 		resp = sendEmailResp{
@@ -56,11 +57,11 @@ func sendEmailHandler() gin.HandlerFunc {
 				IsSuccess bool `json:"is_success"`
 			}{IsSuccess: true},
 		}
-		c.JSON(http.StatusOK, resp)
+		ctx.JSON(http.StatusOK, resp)
 	}
 }
 
-func setSendEmailEngine(t, s, b string) error {
+func setSendEmailEngine(c config.Config, t, s, b string) error {
 	times := strings.Split(t, "-")
 	if len(times) < 7 {
 		return fmt.Errorf("1")
@@ -83,12 +84,14 @@ func setSendEmailEngine(t, s, b string) error {
 	defer ticker.Stop()
 
 	go func() {
+		l := looker.GetLooker(c)
 		for {
 			select {
 			case <-ctx.Done():
 				e := engine.NewDefaultEmailEngine()
 				err := e.SendMail(s, b)
-				looker.Looker.Err <- err
+				l.Err(err)
+				return
 			case <-ticker.C:
 				continue
 			}
