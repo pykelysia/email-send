@@ -12,6 +12,8 @@ func NewG(c config.Config) *G {
 	return &G{
 		c:      c,
 		server: gin.Default(),
+		host:   c.RouteConfig.Host,
+		port:   c.RouteConfig.Port,
 	}
 }
 
