@@ -1,17 +1,17 @@
 package main
 
 import (
-	"email-send/engine"
+	"email-send/config"
+	"email-send/route"
 
 	"github.com/pykelysia/pyketools"
 )
 
 func main() {
-	e := engine.NewDefaultEmailEngine()
-	subject := "Test Email"
-	body := "<h1>test content.</h1>"
-	err := e.SendMail(subject, body)
+	c := config.LoadConfig("./develop.yaml")
+	g := route.NewG(c)
+	err := g.Run()
 	if err != nil {
-		pyketools.Fatalf("send email failed: %v", err)
+		pyketools.Fatalf("failed to open net: %v", err)
 	}
 }
