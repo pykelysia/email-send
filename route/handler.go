@@ -47,6 +47,7 @@ func sendEmailHandler(c *config.Config) gin.HandlerFunc {
 				}{IsSuccess: false},
 			}
 			ctx.JSON(http.StatusOK, resp)
+			return
 		}
 
 		resp = sendEmailResp{
