@@ -37,7 +37,7 @@ func (s *Scheduler) generateID() string {
 }
 
 // AddTask 添加任务
-func (s *Scheduler) AddTask(to, subject, body string, sendTime time.Time) (*EmailTask, error) {
+func (s *Scheduler) AddTask(subject, body string, sendTime time.Time) (*EmailTask, error) {
 	// 解析时间格式
 	targetTime := sendTime
 
@@ -48,7 +48,6 @@ func (s *Scheduler) AddTask(to, subject, body string, sendTime time.Time) (*Emai
 
 	task := &EmailTask{
 		ID:        s.generateID(),
-		To:        to,
 		Subject:   subject,
 		Body:      body,
 		SendTime:  targetTime,
@@ -109,7 +108,7 @@ func (s *Scheduler) sendEmail(task *EmailTask) {
 		s.mu.Lock()
 		task.Status = TaskStatusSent
 		s.mu.Unlock()
-		fmt.Printf("[成功] 邮件已发送至: %s\n", task.To)
+		fmt.Print("[成功] 邮件已发送\n")
 	}
 }
 

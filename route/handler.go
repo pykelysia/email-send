@@ -80,7 +80,7 @@ func setSendEmailEngine(c *config.Config, t, s, b string) error {
 	)
 
 	// 使用全局调度器添加任务
-	_, err := GlobalScheduler.AddTask("", s, b, targetTime)
+	_, err := GlobalScheduler.AddTask(s, b, targetTime)
 	return err
 }
 
