@@ -5,7 +5,6 @@ import "time"
 // EmailTask 邮件任务
 type EmailTask struct {
 	ID        string     // 任务 ID
-	To        string     // 收件人
 	Subject   string     // 主题
 	Body      string     // 正文
 	SendTime  time.Time  // 发送时间
