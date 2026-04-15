@@ -20,6 +20,14 @@ func NewG(c *config.Config) *G {
 func (g *G) bindRoute() {
 	server := g.server
 	server.POST("/send", sendEmailHandler(g.c))
+
+	// 静态文件服务
+	server.Static("/static", "./static")
+
+	// 根路径返回 index.html
+	server.GET("/", func(ctx *gin.Context) {
+		ctx.File("./static/index.html")
+	})
 }
 
 func (g *G) Run() error {

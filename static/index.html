@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邮件发送系统</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📧 邮件发送系统</h1>
+            <p class="subtitle">定时发送邮件任务管理</p>
+        </header>
+
+        <main>
+            <form id="emailForm" class="email-form">
+                <div class="form-group">
+                    <label for="sendTime">发送时间</label>
+                    <input type="datetime-local" id="sendTime" name="sendTime" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">邮件主题</label>
+                    <input type="text" id="subject" name="subject" placeholder="请输入邮件主题" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="body">邮件正文</label>
+                    <textarea id="body" name="body" placeholder="请输入邮件正文内容" rows="8" required></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span class="btn-text">立即发送</span>
+                        <span class="btn-loading" style="display: none;">发送中...</span>
+                    </button>
+                </div>
+            </form>
+
+            <div id="result" class="result" style="display: none;"></div>
+        </main>
+
+        <footer>
+            <p>Powered by Email-Send</p>
+        </footer>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
