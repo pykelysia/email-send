@@ -3,7 +3,6 @@ package looker
 import (
 	"email-send/config"
 	"email-send/util"
-	"fmt"
 	"time"
 
 	"github.com/pykelysia/pyketools"
@@ -12,13 +11,10 @@ import (
 func GetLooker(c *config.Config) *looker {
 	err, end := make(chan error), make(chan bool)
 
-	l := util.NewLogger(c)
-
 	return &looker{
 		err:    err,
 		end:    end,
 		isOpen: false,
-		logger: l,
 	}
 }
 
@@ -32,7 +28,7 @@ func (l *looker) Start() {
 			select {
 			case e := <-l.err:
 				pyketools.Infof("get error: %v", e)
-				l.logger.LogToFile("error", fmt.Sprintf("%v", e))
+				util.Errorf("%v", e)
 				continue
 			case <-l.end:
 				continue
@@ -50,7 +46,6 @@ func (l *looker) End() {
 		l.isOpen = false
 		close(l.end)
 		close(l.err)
-		l.logger.Close()
 	}
 }
 

@@ -5,6 +5,7 @@ import (
 	"crypto/rand"
 	"email-send/config"
 	"email-send/engine"
+	"email-send/util"
 	"fmt"
 	"strings"
 	"sync"
@@ -103,12 +104,12 @@ func (s *Scheduler) sendEmail(task *EmailTask) {
 		s.mu.Lock()
 		task.Status = TaskStatusFailed
 		s.mu.Unlock()
-		fmt.Printf("[错误] 发送邮件失败: %v\n", err)
+		util.Errorf("[失败] 发送邮件失败: 主题=%s, 错误=%v", task.Subject, err)
 	} else {
 		s.mu.Lock()
 		task.Status = TaskStatusSent
 		s.mu.Unlock()
-		fmt.Print("[成功] 邮件已发送\n")
+		util.Infof("[成功] 邮件已发送: 主题=%s", task.Subject)
 	}
 }
 
