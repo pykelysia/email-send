@@ -8,7 +8,7 @@ import (
 	"github.com/pykelysia/pyketools"
 )
 
-func NewG(c config.Config) *G {
+func NewG(c *config.Config) *G {
 	return &G{
 		c:      c,
 		server: gin.Default(),

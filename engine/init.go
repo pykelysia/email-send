@@ -4,12 +4,12 @@ import "email-send/config"
 
 func NewDefaultEmailEngine() *EmailEngine {
 	return &EmailEngine{
-		config: config.LoadConfig("./emailsend.yaml"),
+		config: config.GetConfig(),
 	}
 }
 
-func NewEmailEngine(filePath string) *EmailEngine {
+func NewEmailEngine() *EmailEngine {
 	return &EmailEngine{
-		config: config.LoadConfig(filePath),
+		config: config.GetConfig(),
 	}
 }

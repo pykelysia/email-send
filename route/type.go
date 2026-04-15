@@ -8,7 +8,7 @@ import (
 
 type (
 	G struct {
-		c      config.Config
+		c      *config.Config
 		server *gin.Engine
 		host   string
 		port   string

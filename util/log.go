@@ -12,14 +12,14 @@ import (
 
 type (
 	Logger struct {
-		c       config.Config
+		c       *config.Config
 		logPath string
 		logFile *os.File
 		mu      sync.Mutex
 	}
 )
 
-func NewLogger(c config.Config) *Logger {
+func NewLogger(c *config.Config) *Logger {
 	l := &Logger{c: c, logPath: c.LogConfig.LogPath}
 	logFile, fileErr := os.OpenFile(l.logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if fileErr != nil {
@@ -42,5 +42,7 @@ func (l *Logger) LogToFile(level, message string) {
 }
 
 func (l *Logger) Close() {
-	l.logFile.Close()
+	if l.logFile != nil {
+		l.logFile.Close()
+	}
 }

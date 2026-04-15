@@ -9,7 +9,7 @@ import (
 	"github.com/pykelysia/pyketools"
 )
 
-func GetLooker(c config.Config) *looker {
+func GetLooker(c *config.Config) *looker {
 	err, end := make(chan error), make(chan bool)
 
 	l := util.NewLogger(c)

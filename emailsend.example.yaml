@@ -1,0 +1,15 @@
+UserConfig: 
+  UserEmail: your_email@example.com
+  EmailPsw: your_smtp_auth_code
+  EmailHost: smtp.example.com:587
+
+EmailTo:
+  Addresses:
+    - recipient@example.com
+
+LogConfig:
+  LogPath: ./EmailSend.log
+
+RouteConfig:
+  Host: 
+  Port: 8080

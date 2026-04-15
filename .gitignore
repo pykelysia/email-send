@@ -1,2 +1,4 @@
-*.yaml
+email-send
+emailsend.yaml
+
 *.log

@@ -9,7 +9,7 @@ import (
 )
 
 func TestLooker(t *testing.T) {
-	c := config.LoadConfig("../looker_test.yaml")
+	c := config.LoadConfig("../develop.yaml")
 	l := GetLooker(c)
 	l.Start()
 	defer l.End()

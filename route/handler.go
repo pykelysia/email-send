@@ -1,10 +1,8 @@
 package route
 
 import (
-	"context"
 	"email-send/config"
-	"email-send/engine"
-	"email-send/looker"
+	"email-send/scheduler"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -14,7 +12,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func sendEmailHandler(c config.Config) gin.HandlerFunc {
+// 全局调度器（由 main.go 初始化后注入）
+var GlobalScheduler *scheduler.Scheduler
+
+func sendEmailHandler(c *config.Config) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var (
 			req  sendEmailReq
@@ -61,10 +62,10 @@ func sendEmailHandler(c config.Config) gin.HandlerFunc {
 	}
 }
 
-func setSendEmailEngine(c config.Config, t, s, b string) error {
+func setSendEmailEngine(c *config.Config, t, s, b string) error {
 	times := strings.Split(t, "-")
 	if len(times) < 7 {
-		return fmt.Errorf("1")
+		return fmt.Errorf("时间格式错误，需要 yyyy-mm-dd-hh-mm-ss")
 	}
 	targetTime := time.Date(
 		atoi(times[0]),
@@ -77,28 +78,9 @@ func setSendEmailEngine(c config.Config, t, s, b string) error {
 		time.Local,
 	)
 
-	ctx, cancel := context.WithDeadline(context.Background(), targetTime)
-	defer cancel()
-
-	ticker := time.NewTicker(time.Second)
-	defer ticker.Stop()
-
-	go func() {
-		l := looker.GetLooker(c)
-		for {
-			select {
-			case <-ctx.Done():
-				e := engine.NewDefaultEmailEngine()
-				err := e.SendMail(s, b)
-				l.Err(err)
-				return
-			case <-ticker.C:
-				continue
-			}
-		}
-	}()
-
-	return nil
+	// 使用全局调度器添加任务
+	_, err := GlobalScheduler.AddTask("", s, b, targetTime)
+	return err
 }
 
 func atoi(s string) int {
