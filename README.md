@@ -23,29 +23,10 @@ cd email-send
 
 ```bash
 # email-send >
-touch develop.yaml
+cp emailsend.example.yaml emailsend.yaml
 ```
 
-内容如下：
-
-```yaml
-UserConfig: 
-  UserEmail: youremail@example.com
-  EmailPsw: youremail-smtp-password
-  EmailHost: smtp.you.use.com:port
-
-EmailTo:
-  Addresses:
-    - sendto@example.com
-
-LogConfig:
-  LogPath: where-you-want-to-log
-# 如果你不需要打印日志至文件，可不填
-
-RouteConfig:
-  Host: host
-  Port: port
-```
+然后填充该配置文件中的内容。
 
 ### 3 运行
 
@@ -73,15 +54,4 @@ docker run -d image.name:tag
 
 ## 使用
 
-暂无前端内容（跪）。只要向 `host:port/send` 请求格式满足以下即可：
-```json
-{
-    "time": "yyyy-mm-dd-hour-min-sec-ms",
-    "subject": "your email subject",
-    "body": "your email body.",
-}
-```
-
-# TODO
-
-- [ ] 写一个能用的前端。
+直接打开对应的端口的网站即可使用前端。
